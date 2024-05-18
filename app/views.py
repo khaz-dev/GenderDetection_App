@@ -3,6 +3,7 @@ import cv2
 from app.face_recognition import faceRecognitionPipeline
 from flask import render_template, request
 import matplotlib.image as matimg
+from app.helper_functions import deleteAll_fileFrom
 
 
 UPLOAD_FOLDER = 'static/upload'
@@ -23,7 +24,15 @@ def genderapp():
         path = os.path.join(UPLOAD_FOLDER,filename)
         f.save(path) # save image into upload folder
         # get predictions
+
+        # Delete prediction image previously saved
+        deleteAll_fileFrom('./static/predict')
+
         pred_image, predictions = faceRecognitionPipeline(path)
+
+        # Delete upload image after done predict
+        deleteAll_fileFrom('./static/upload')
+
         pred_filename = 'prediction_image.jpg'
         cv2.imwrite(f'./static/predict/{pred_filename}',pred_image)
         

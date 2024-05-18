@@ -2,7 +2,9 @@ import numpy as np
 import sklearn
 import pickle
 import cv2
+from app.helper_functions import resize_foto, deleteAll_fileFrom
 
+max_width = 800
 
 # Load all models
 haar = cv2.CascadeClassifier('./model/haarcascade_frontalface_default.xml') # cascade classifier
@@ -13,15 +15,23 @@ mean_face_arr = pca_models['mean_face'] # Mean Face
 
 
 def faceRecognitionPipeline(filename,path=True):
+    
+
     if path:
         # step-01: read image
         img = cv2.imread(filename) # BGR
     else:
         img = filename # array
+
+     # resize only if a max_width is specified
+    if max_width is not None:
+        foto_width, foto_height = resize_foto(img.shape[1], img.shape[0], max_width)
+        img = cv2.resize(img, (foto_width, foto_height))
+
     # step-02: convert into gray scale
     gray =  cv2.cvtColor(img,cv2.COLOR_BGR2GRAY) 
     # step-03: crop the face (using haar cascase classifier)
-    faces = haar.detectMultiScale(gray,1.5,3)
+    faces = haar.detectMultiScale(gray, scaleFactor=1.3, minNeighbors=4, minSize=(30,30), flags=cv2.CASCADE_SCALE_IMAGE)
     predictions = []
     for x,y,w,h in faces:
         #cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),2)
