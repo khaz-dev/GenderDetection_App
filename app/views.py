@@ -17,6 +17,9 @@ def app():
 
 
 def genderapp():
+    # Delete upload image after done predict
+    deleteAll_fileFrom('./static/upload')
+    
     if request.method == 'POST':
         f = request.files['image_name']
         filename = f.filename
@@ -52,9 +55,6 @@ def genderapp():
                            eig_image_name,
                            gender_name,
                            score])
-        
-        # Delete upload image after done predict
-        deleteAll_fileFrom('./static/upload')
         
         return render_template('gender.html',fileupload=True,report=report) # POST REQUEST
             
