@@ -2,7 +2,7 @@ import numpy as np
 import sklearn
 import pickle
 import cv2
-from app.helper_functions import resize_foto, deleteAll_fileFrom
+from app.helper_functions import resize_foto
 
 max_width = 800
 

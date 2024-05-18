@@ -1,6 +1,10 @@
 import os, shutil
 
 def deleteAll_fileFrom(folder_path):
+    # Normalize the specified path
+    # using os.path.normpath() method
+    folder_path = os.path.normpath(folder_path)
+
     for filename in os.listdir(folder_path):
         file_path = os.path.join(folder_path, filename)
         try:

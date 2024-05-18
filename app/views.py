@@ -5,7 +5,6 @@ from flask import render_template, request
 import matplotlib.image as matimg
 from app.helper_functions import deleteAll_fileFrom
 
-
 UPLOAD_FOLDER = 'static/upload'
 
 def index():
@@ -17,9 +16,9 @@ def app():
 
 
 def genderapp():
-    # Delete upload image after done predict
-    deleteAll_fileFrom('./static/upload')
-    
+    # delete all file from upload folder
+    deleteAll_fileFrom('./static/predict')
+
     if request.method == 'POST':
         f = request.files['image_name']
         filename = f.filename
@@ -27,11 +26,10 @@ def genderapp():
         path = os.path.join(UPLOAD_FOLDER,filename)
         f.save(path) # save image into upload folder
         # get predictions
-
-        # Delete prediction image previously saved
-        deleteAll_fileFrom('./static/predict')
-
         pred_image, predictions = faceRecognitionPipeline(path)
+
+        # delete all file from upload folder
+        deleteAll_fileFrom('./static/upload')
 
         pred_filename = 'prediction_image.jpg'
         cv2.imwrite(f'./static/predict/{pred_filename}',pred_image)
@@ -55,6 +53,7 @@ def genderapp():
                            eig_image_name,
                            gender_name,
                            score])
+            
         
         return render_template('gender.html',fileupload=True,report=report) # POST REQUEST
             
