@@ -16,10 +16,6 @@ def app():
 
 
 def genderapp():
-    # delete all file from upload folder
-    deleteAll_fileFrom('static/predict')
-    # delete all file from upload folder
-    # deleteAll_fileFrom('static/upload')
 
     if request.method == 'POST':
         f = request.files['image_name']
