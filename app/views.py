@@ -30,9 +30,6 @@ def genderapp():
 
         pred_image, predictions = faceRecognitionPipeline(path)
 
-        # Delete upload image after done predict
-        deleteAll_fileFrom('./static/upload')
-
         pred_filename = 'prediction_image.jpg'
         cv2.imwrite(f'./static/predict/{pred_filename}',pred_image)
         
@@ -55,7 +52,9 @@ def genderapp():
                            eig_image_name,
                            gender_name,
                            score])
-            
+        
+        # Delete upload image after done predict
+        deleteAll_fileFrom('./static/upload')
         
         return render_template('gender.html',fileupload=True,report=report) # POST REQUEST
             
