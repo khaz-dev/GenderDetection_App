@@ -18,7 +18,9 @@ def app():
 def genderapp():
     # delete all file from upload folder
     deleteAll_fileFrom('./static/predict')
-
+    # delete all file from upload folder
+    deleteAll_fileFrom('./static/upload')
+    
     if request.method == 'POST':
         f = request.files['image_name']
         filename = f.filename
@@ -27,9 +29,6 @@ def genderapp():
         f.save(path) # save image into upload folder
         # get predictions
         pred_image, predictions = faceRecognitionPipeline(path)
-
-        # delete all file from upload folder
-        deleteAll_fileFrom('./static/upload')
 
         pred_filename = 'prediction_image.jpg'
         cv2.imwrite(f'./static/predict/{pred_filename}',pred_image)
